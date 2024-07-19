@@ -6,6 +6,10 @@
     border:1px solid gray;
 }
 
+.event-content a{
+    color: black;
+    text-decoration: none;
+}
 .event-general{
     background-color: #eaac67; 
 }

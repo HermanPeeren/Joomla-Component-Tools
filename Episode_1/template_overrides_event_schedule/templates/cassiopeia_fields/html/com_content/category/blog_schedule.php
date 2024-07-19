@@ -43,8 +43,8 @@ if (!empty($eventTypeTree))
   <?php foreach ($eventTypeTags as $tag): ?>
       <span class="<?= $tag['class'] ?>"><?= $tag['name'] ?></span>
   <?php endforeach; ?>
-  <!--<span style="background-color:#eaac67; ">Algemeen</span> <span style="background-color:#b8ec83; ">Beginner</span> <span style="background-color:#91cbfd; ">Gemiddeld</span> <span style="background-color:#ff735a; ">Gevorderd / Developer</span> <span style="background-color:#ffde7e; ">Workshops € 25,00/stk</span>-->
 </div>
+
 <table class="schedule" style="width: 100%">
   <thead>
     <tr>  

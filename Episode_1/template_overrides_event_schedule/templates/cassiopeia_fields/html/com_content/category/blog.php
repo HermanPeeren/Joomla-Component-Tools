@@ -18,21 +18,10 @@ use Joomla\CMS\Layout\LayoutHelper;
 
 $app = Factory::getApplication();
 
-// Some momentary unused leftovers from the original blog.php 
 $this->category->text = $this->category->description;
+
 $app->triggerEvent('onContentPrepare', [$this->category->extension . '.categories', &$this->category, &$this->params, 0]);
 $this->category->description = $this->category->text;
-
-$results = $app->triggerEvent('onContentAfterTitle', [$this->category->extension . '.categories', &$this->category, &$this->params, 0]);
-$afterDisplayTitle = trim(implode("\n", $results));
-
-$results = $app->triggerEvent('onContentBeforeDisplay', [$this->category->extension . '.categories', &$this->category, &$this->params, 0]);
-$beforeDisplayContent = trim(implode("\n", $results));
-
-$results = $app->triggerEvent('onContentAfterDisplay', [$this->category->extension . '.categories', &$this->category, &$this->params, 0]);
-$afterDisplayContent = trim(implode("\n", $results));
-
-$htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 
  // Initiate getting variables from additional fields
  $mvcFactory = $app->bootComponent('com_fields')->getMVCFactory();
