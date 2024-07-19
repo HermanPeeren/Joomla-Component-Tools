@@ -8,7 +8,7 @@ See folder /template_overrides_event_schedule
 The installable export package for the of the Event Schedule example with com_hopper will be uploaded in the /hopper_packages folder.
 
 The Hopper component, to transfer an additional fields configuration to another site, can be found at https://github.com/pjdevries/com_hopper.
-
+N.B.: com_hopper is made for Joomla 5 and does not work on Joomla 4.
 ## Tags
 In the example I've used 5 tags for styling of the event types. I put them all under a tag 'Event Type'.
 
