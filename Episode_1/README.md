@@ -5,7 +5,7 @@ See folder /template_overrides_event_schedule
 
 ![screenshot of override with some values](images/eventschedule-screenshot2024-07-19.jpg)
 ## Hopper
-The installable export package for the of the Event Schedule example with com_hopper will be uploaded in the /hopper_packages folder.
+The installable export package for the of the Event Schedule example with com_hopper can be found in the ![hopper_packages](hopper_packages) folder.
 
 The Hopper component, to transfer an additional fields configuration to another site, can be found at https://github.com/pjdevries/com_hopper. Version 1.0.0 can be downloaded from https://github.com/pjdevries/com_hopper/releases/tag/v1.0.0
 
