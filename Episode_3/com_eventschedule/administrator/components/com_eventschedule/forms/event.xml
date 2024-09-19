@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+  <fieldset
+          addruleprefix="Yepr\Component\Eventschedule\Administrator\Rule"
+          addfieldprefix="Yepr\Component\Eventschedule\Administrator\Field"
+  >
+    <field name="event_name"
+           type="text"
+           label="COM_EVENTSCHEDULE_EVENT_FIELD_NAME_LABEL"
+           description="COM_EVENTSCHEDULE_EVENT_FIELD_NAME_DESC"
+    />
+
+    <field
+            name="short_description"
+            type="editor"
+            label="COM_EVENTSCHEDULE_EVENT_FIELD_SHORT_DESCRIPTION_LABEL"
+            description="COM_EVENTSCHEDULE_EVENT_FIELD_SHORT_DESCRIPTION_DESC"
+    />
+
+    <field
+            name="long_description"
+            type="editor"
+            label="COM_EVENTSCHEDULE_EVENT_FIELD_LONG_DESCRIPTION_LABEL"
+            description="COM_EVENTSCHEDULE_EVENT_FIELD_LONG_DESCRIPTION_DESC"
+    />
+
+    <field name="duration"
+           type="number"
+           label="COM_EVENTSCHEDULE_EVENT_FIELD_DURATION_LABEL"
+           description="COM_EVENTSCHEDULE_EVENT_FIELD_DURATION_DESC"
+    />
+
+    <field
+            name="locators"
+            type="subform"
+            formsource="administrator/components/com_eventschedule/forms/locator.xml"
+            multiple="true"
+            min="0"
+            label="COM_EVENTSCHEDULE_EVENT_FIELD_LOCATORS_LABEL"
+            description="COM_EVENTSCHEDULE_EVENT_FIELD_LOCATORS_DESC"
+            layout="joomla.form.field.subform.repeatable"
+    />
+
+    <field
+            name="event_type_id"
+            type="sql"
+            query="SELECT id, `event_type_name` FROM `#__eventschedule_event_types`"
+            header="COM_EVENTSCHEDULE_EVENT_FIELD_EVENT_TYPE_SELECT_HEADER"
+            key_field="id"
+            value_field="event_type_name"
+            label="COM_EVENTSCHEDULE_EVENT_FIELD_EVENT_TYPE_LABEL"
+            description="COM_EVENTSCHEDULE_EVENT_FIELD_EVENT_TYPE_DESC"
+    />
+
+    <field
+            name="actor_ids"
+            type="sql"
+            query="SELECT id, `actor_name` FROM `#__eventschedule_actors`"
+            multiple="multiple"
+            header="COM_EVENTSCHEDULE_EVENT_FIELD_ACTORS_SELECT_HEADER"
+            key_field="id"
+            value_field="actor_name"
+            label="COM_EVENTSCHEDULE_EVENT_FIELD_ACTORS_LABEL"
+            description="COM_EVENTSCHEDULE_EVENT_FIELD_ACTORS_DESC"
+    />
+
+    <field name="id" type="hidden"/>
+  </fieldset>
+</form>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension type="component" version="5.1" method="upgrade">
+	<name>com_eventschedule</name>
+	<creationDate>2024-06-15</creationDate>
+	<author>Herman Peeren</author>
+	<authorEmail>herman@yepr.nl</authorEmail>
+	<authorUrl>https://yepr.nl</authorUrl>
+	<copyright>Herman Peeren, Yepr</copyright>
+	<license>GPL vs3+</license>
+	<version>1.0.0</version>
+	<description>COM_EVENTSCHEDULE_DESCRIPTION</description>
+	<namespace path="src">Yepr\Component\EventSchedule</namespace>
+
+	<!-- Scripts to run on installation -->
+	<scriptfile>script.php</scriptfile>
+
+	<!-- Runs on install -->
+	<install>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+		</sql>
+	</install>
+
+	<!-- Runs on uninstall -->
+	<uninstall>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+		</sql>
+	</uninstall>
+
+
+	<!-- Media files -->
+	<media folder="media/com_eventschedule" destination="com_eventschedule">
+		<folder>css</folder>
+		<folder>js</folder>
+
+		<filename>joomla.asset.json</filename>
+	</media>
+
+	<!-- Front-end files -->
+	<files folder="components/com_eventschedule">
+		<folder>language</folder>
+		<folder>src</folder>
+		<folder>tmpl</folder>
+	</files>
+
+	<!-- Front-end translation files -->
+	<languages folder="components/com_eventschedule/language">
+		<language tag="en-GB">en-GB/com_eventschedule.ini</language>
+	</languages>
+
+	<!-- Back-end -->
+	<administration>
+		<!-- Menu entries -->
+		<menu view="events">COM_EVENTSCHEDULE_MENUNAME</menu>
+		<submenu>
+			<!-- all backend index pages as submenu item -->
+			<menu link="option=com_eventschedule&amp;view=events">COM_EVENTSCHEDULE_SUBMENUNAME_EVENTS
+			<params>
+				<menu-quicktask-title>COM_EVENTSCHEDULE_SUBMENUNAME_EVENTS</menu-quicktask-title>
+				<menu-quicktask>index.php?option=com_eventschedule&amp;view=events</menu-quicktask>
+			</params>
+			</menu>
+			
+			<menu link="option=com_eventschedule&amp;view=actors">COM_EVENTSCHEDULE_SUBMENUNAME_ACTORS
+			<params>
+				<menu-quicktask-title>COM_EVENTSCHEDULE_SUBMENUNAME_ACTORS</menu-quicktask-title>
+				<menu-quicktask>index.php?option=com_eventschedule&amp;view=actors</menu-quicktask>
+			</params>
+			</menu>
+			
+			<menu link="option=com_eventschedule&amp;view=containers">COM_EVENTSCHEDULE_SUBMENUNAME_CONTAINERS
+			<params>
+				<menu-quicktask-title>COM_EVENTSCHEDULE_SUBMENUNAME_CONTAINERS</menu-quicktask-title>
+				<menu-quicktask>index.php?option=com_eventschedule&amp;view=containers</menu-quicktask>
+			</params>
+			</menu>
+			
+			<menu link="option=com_eventschedule&amp;view=sections">COM_EVENTSCHEDULE_SUBMENUNAME_SECTIONS
+			<params>
+				<menu-quicktask-title>COM_EVENTSCHEDULE_SUBMENUNAME_SECTIONS</menu-quicktask-title>
+				<menu-quicktask>index.php?option=com_eventschedule&amp;view=sections</menu-quicktask>
+			</params>
+			</menu>
+			
+			<menu link="option=com_eventschedule&amp;view=eventtypes">COM_EVENTSCHEDULE_SUBMENUNAME_EVENT_TYPES
+			<params>
+				<menu-quicktask-title>COM_EVENTSCHEDULE_SUBMENUNAME_EVENT_TYPES</menu-quicktask-title>
+				<menu-quicktask>index.php?option=com_eventschedule&amp;view=eventTypes</menu-quicktask>
+			</params>
+			</menu>
+		</submenu>
+
+		<!-- Back-end files -->
+		<files folder="administrator/components/com_eventschedule">
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
+			<filename>eventschedule.xml</filename>
+
+			<folder>forms</folder>
+			<folder>language</folder>
+			<folder>services</folder>
+			<folder>sql</folder>
+			<folder>src</folder>
+			<folder>tmpl</folder>
+		</files>
+
+		<!-- Back-end translation files -->
+		<languages folder="administrator/components/com_eventschedule/language">
+			<language tag="en-GB">en-GB/com_eventschedule.ini</language>
+			<language tag="en-GB">en-GB/com_eventschedule.sys.ini</language>
+		</languages>
+	</administration>
+
+	<!-- Update servers -->
+	<!--<updateservers>
+		<server type="extension" priority="1" name="EventSchedule">/eventschedule</server>
+	</updateservers>-->
+</extension>

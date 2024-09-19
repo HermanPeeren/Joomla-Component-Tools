@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<fieldset
+			name="projects"
+			label="COM_EVENTSCHEDULE_PROJECT_FIELD_CONFIG_COMMON_DISPLAY"
+			description="COM_EVENTSCHEDULE_PROJECT_FIELD_CONFIG_COMMON_DESC"
+	>
+		<field
+				name="custom_fields_enable"
+				type="radio"
+				class="switcher"
+				label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
+				default="1"
+		>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+	</fieldset>
+	<fieldset
+			name="permissions"
+			label="JCONFIG_PERMISSIONS_LABEL"
+			description="JCONFIG_PERMISSIONS_DESC"
+	>
+		<field
+				name="rules"
+				type="rules"
+				label="JCONFIG_PERMISSIONS_LABEL"
+				validate="rules"
+				filter="rules"
+				component="com_eventschedule"
+				section="component"
+		/>
+	</fieldset>
+</config>

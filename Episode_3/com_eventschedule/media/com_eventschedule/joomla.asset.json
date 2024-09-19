@@ -1,0 +1,17 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "com_eventschedule",
+  "version": "1.0.0",
+  "description": "Event Schedule example component",
+  "license": "GPL-3.0-or-later",
+  "assets": [
+    {
+      "name": "com_eventschedule.reload",
+      "type": "script",
+      "uri": "com_eventschedule/reload.js",
+      "dependencies": [
+        "webcomponent.core-loader"
+      ]
+    }
+  ]
+}

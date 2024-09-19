@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+  <fieldset
+          addruleprefix="Yepr\Component\Eventschedule\Administrator\Rule"
+          addfieldprefix="Yepr\Component\Eventschedule\Administrator\Field"
+  >
+    <field
+            name="section_name" type="text"
+            label="COM_EVENTSCHEDULE_SECTION_FIELD_NAME_LABEL"
+            description="COM_EVENTSCHEDULE_SECTION_FIELD_NAME_DESC"
+    />
+
+    <field
+            name="container_ids"
+            type="sql"
+            query="SELECT id, `container_name` FROM `#__eventschedule_containers`"
+            multiple="multiple"
+            header="COM_EVENTSCHEDULE_SECTION_FIELD_CONTAINERS_SELECT_HEADER"
+            key_field="id"
+            value_field="container_name"
+            label="COM_EVENTSCHEDULE_SECTION_FIELD_CONTAINERS_LABEL"
+            description="COM_EVENTSCHEDULE_SECTION_FIELD_CONTAINERS_DESC"/>
+
+    <field name="id" type="hidden"/>
+  </fieldset>
+</form>

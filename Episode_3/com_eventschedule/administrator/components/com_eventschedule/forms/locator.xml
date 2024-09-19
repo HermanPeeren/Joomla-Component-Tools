@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+  <fieldset
+          addruleprefix="Yepr\Component\Eventschedule\Administrator\Rule"
+          addfieldprefix="Yepr\Component\Eventschedule\Administrator\Field"
+  >
+
+    <field
+            name="container_id"
+            type="sql"
+            query="SELECT id, `container_name` FROM `#__eventschedule_containers`"
+            header="COM_EVENTSCHEDULE_LOCATOR_FIELD_CONTAINER_SELECT_HEADER"
+            key_field="id"
+            value_field="container_name"
+            onchange="containerReload(this)"
+            label="COM_EVENTSCHEDULE_LOCATOR_FIELD_CONTAINER_LABEL"
+            description="COM_EVENTSCHEDULE_LOCATOR_FIELD_CONTAINER_DESC"/>
+
+    <field
+            name="section_id"
+            type="sql"
+            sql_select="section.id, section.section_name"
+            sql_from="#__eventschedule_container_section AS junction"
+            sql_join="#__eventschedule_sections AS section ON section.id=junction.section_id"
+            sql_order="section.ordering ASC"
+            sql_filter="container_id"
+            sql_default_container_id="0"
+            header="COM_EVENTSCHEDULE_LOCATOR_FIELD_SECTION_SELECT_HEADER"
+            key_field="id"
+            value_field="section_name"
+            label="COM_EVENTSCHEDULE_LOCATOR_FIELD_SECTION_LABEL"
+            description="COM_EVENTSCHEDULE_LOCATOR_FIELD_SECTION_DESC"
+            context="event"
+    >
+      <option value="0">-First select a container-</option>
+    </field>
+
+    <field
+            name="starttime"
+            type="text"
+            label="COM_EVENTSCHEDULE_LOCATOR_FIELD_STARTTIME_LABEL"
+            description="COM_EVENTSCHEDULE_LOCATOR_FIELD_STARTTIME_DESC"
+    />
+
+    <field
+            name="endtime"
+            type="text"
+            label="COM_EVENTSCHEDULE_LOCATOR_FIELD_ENDTIME_LABEL"
+            description="COM_EVENTSCHEDULE_LOCATOR_FIELD_ENDTIME_DESC"
+    />
+
+    <field name="id" type="hidden"/>
+
+  </fieldset>
+</form>
