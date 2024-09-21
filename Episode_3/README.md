@@ -33,8 +33,50 @@ the reload() method in the controller already  stores all input from the form in
 user state and based on that the form is rendered again. In our case: 
 the sections-dropdown is rendered based on the value of the container-dropdown
 (in the locator). No need to explicitly also store the container_id in the user state. 
+The "context"-attribute is also not necessary (and not used).
 
 Will correct it in the developers manual for the sql-field.
+
+I've put a "showon" attribute on the section: only show that dropdown when a container 
+has been chosen: `showon="container_id!:"`.
+
+My (cascading) section-dropdown field definition looks like this:
+```
+    <field
+            name="section_id"
+            type="sql"
+            sql_select="section.id, section.section_name"
+            sql_from="#__eventschedule_container_section AS junction"
+            sql_join="#__eventschedule_sections AS section ON section.id=junction.section_id"
+            sql_order="section.ordering ASC"
+            sql_filter="container_id"
+            sql_default_container_id="0"
+            header="COM_EVENTSCHEDULE_LOCATOR_FIELD_SECTION_SELECT_HEADER"
+            key_field="id"
+            value_field="section_name"
+            label="COM_EVENTSCHEDULE_LOCATOR_FIELD_SECTION_LABEL"
+            description="COM_EVENTSCHEDULE_LOCATOR_FIELD_SECTION_DESC"
+            showon="container_id!:"
+    />
+```
+#### Example
+Say we have two containers:
+* Friday 30 May 2024
+* Saturday 1 June 2024
+
+In both containers the section "Kantine" is available. On Friday Room 1 and Room 2 are available 
+and on Saturday Room 3 and Room 4.
+
+When no container has been chosen we don't see a field to choose a section in our locator:
+
+![screenshot sections_no_container](images/sections-no-container.jpg)
+
+When Friday is chosen as container, we see the options Kantine, Room 1 and Room 2:
+
+![screenshot sections_friday](images/sections-friday.jpg)
+
+
+When we change our container-choice to Saturday we'll see Kantine, Room 3 and Room 4.
 
 ## Multiple subform field
 In order to automatically store and retrieve a multiple subform field, 
