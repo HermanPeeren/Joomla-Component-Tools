@@ -1,90 +1,40 @@
 <?php
-/*----------------------------------------------------------------------------------|  www.vdm.io  |----/
-				TLWebdesign 
-/-------------------------------------------------------------------------------------------------------/
+/**
+ * @package    EventSchedule
+ * @subpackage com_eventschedule
+ * @version    1.0.0
+ *
+ * @copyright  Herman Peeren, Yepr
+ * @license    GPL vs3+
+ */
 
-	@version		1.0.2
-	@build			11th June, 2024
-	@created		23rd May, 2024
-	@package		Event Schedule
-	@subpackage		ScheduleModel.php
-	@author			Tom van der Laan <https://tlwebdesign.nl>	
-	@copyright		Copyright (C) 2015. All Rights Reserved
-	@license		GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html
-  ____  _____  _____  __  __  __      __       ___  _____  __  __  ____  _____  _  _  ____  _  _  ____ 
- (_  _)(  _  )(  _  )(  \/  )(  )    /__\     / __)(  _  )(  \/  )(  _ \(  _  )( \( )( ___)( \( )(_  _)
-.-_)(   )(_)(  )(_)(  )    (  )(__  /(__)\   ( (__  )(_)(  )    (  )___/ )(_)(  )  (  )__)  )  (   )(  
-\____) (_____)(_____)(_/\/\_)(____)(__)(__)   \___)(_____)(_/\/\_)(__)  (_____)(_)\_)(____)(_)\_) (__) 
+namespace Yepr\Component\EventSchedule\Site\Model;
 
-/------------------------------------------------------------------------------------------------------*/
-namespace TLWeb\Component\Eventschedule\Site\Model;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\User\User;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\Input\Input;
-use TLWeb\Component\Eventschedule\Site\Helper\EventscheduleHelper;
-use TLWeb\Component\Eventschedule\Site\Helper\RouteHelper;
-use Joomla\CMS\Helper\TagsHelper;
-use TLWeb\Joomla\Utilities\ArrayHelper as UtilitiesArrayHelper;
-
-// No direct access to this file
-\defined('_JEXEC') or die;
+use Joomla\Database\QueryInterface;
+use Joomla\Registry\Registry;
 
 /**
- * Eventschedule List Model for Schedule
- *
- * @since  1.6
+ * Custom List Model for Schedule
  */
 class ScheduleModel extends ListModel
 {
-	/**
-	 * Represents the current user object.
-	 *
-	 * @var   User  The user object representing the current user.
-	 * @since 3.2.0
-	 */
-	protected User $user;
-
-	/**
-	 * The unique identifier of the current user.
-	 *
-	 * @var   int|null  The ID of the current user.
-	 * @since 3.2.0
-	 */
-	protected ?int $userId;
-
-	/**
-	 * Flag indicating whether the current user is a guest.
-	 *
-	 * @var   int  1 if the user is a guest, 0 otherwise.
-	 * @since 3.2.0
-	 */
-	protected int $guest;
-
-	/**
-	 * An array of groups that the current user belongs to.
-	 *
-	 * @var   array|null  An array of user group IDs.
-	 * @since 3.2.0
-	 */
-	protected ?array $groups;
-
-	/**
-	 * An array of view access levels for the current user.
-	 *
-	 * @var   array|null  An array of access level IDs.
-	 * @since 3.2.0
-	 */
-	protected ?array $levels;
-
+    private $events           = null;
+    private $containerOptions = null;
+    private $sectionOptions   = null;
+    private $params           = null;
+    private $timeInterval     = null;
+    private $timeSlots        = null;
+    private $eventTypes        = null;
+    private $unscheduled      = null;
+    
 	/**
 	 * The application object.
 	 *
@@ -94,251 +44,259 @@ class ScheduleModel extends ListModel
 	protected CMSApplicationInterface $app;
 
 	/**
-	 * The input object, providing access to the request data.
-	 *
-	 * @var   Input  The input object.
-	 * @since 3.2.0
-	 */
-	protected Input $input;
-
-	/**
-	 * The styles array.
-	 *
-	 * @var    array
-	 * @since  4.3
-	 */
-	protected array $styles = [
-		'components/com_eventschedule/assets/css/site.css',
-		'components/com_eventschedule/assets/css/schedule.css'
- 	];
-
-	/**
-	 * The scripts array.
-	 *
-	 * @var    array
-	 * @since  4.3
-	 */
-	protected array $scripts = [
-		'components/com_eventschedule/assets/js/site.js'
- 	];
-
-	/**
-	 * A custom property for UIKit components. (not used unless you load v2)
-	 */
-	protected $uikitComp;
-
-	/**
 	 * Constructor
 	 *
-	 * @param   array                 $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
-	 * @param   ?MVCFactoryInterface  $factory  The factory.
-	 *
-	 * @since   1.6
+	 * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
+	 * @param   MVCFactoryInterface  $factory  The factory.
+     *
 	 * @throws  \Exception
 	 */
 	public function __construct($config = [], MVCFactoryInterface $factory = null)
 	{
 		parent::__construct($config, $factory);
 
-		$this->app ??= Factory::getApplication();
-		$this->input ??= $this->app->getInput();
-
-		// Set the current user for authorisation checks (for those calling this model directly)
-		$this->user ??= $this->getCurrentUser();
-		$this->userId = $this->user->get('id');
-		$this->guest = $this->user->get('guest');
-		$this->groups = $this->user->get('groups');
-		$this->authorisedGroups = $this->user->getAuthorisedGroups();
-		$this->levels = $this->user->getAuthorisedViewLevels();
-
-		// will be removed
-		$this->initSet = true;
+		$this->app = Factory::getApplication();
 	}
 
-	/**
-	 * Method to build an SQL query to load the list data.
-	 *
-	 * @return   string  An SQL query
-	 * @since    1.6
-	 */
-	protected function getListQuery()
-	{
-		// [VDM\Joomla\Componentbuilder\Compiler\Helper\Interpretation 4644] Make sure all records load, since no pagination allowed.
-		$this->setState('list.limit', 0);
-		// [VDM\Joomla\Componentbuilder\Compiler\Helper\Interpretation 4650] Get a db connection.
-		$db = $this->getDatabase();
+    /**
+     * Get the events in a nested array
+     * @return array
+     *
+     * @since version
+     */
+    public function getEvents():array
+    {
+        if (is_null($this->events)) {
+            // Prepare the events-array
+            $this->events = [];
+            foreach ($this->getContainerOptions() as $containerOption)
+            {
+                $this->events[$containerOption->id] = [];
+            }
 
-		// [VDM\Joomla\Componentbuilder\Compiler\Helper\Interpretation 4662] Create a new query object.
-		$query = $db->getQuery(true);
+            // Get the events to place them in the events-array
+            $items = $this->getItems();
 
-		// [VDM\Joomla\Componentbuilder\Compiler\Helper\Interpretation 2437] Get from #__eventschedule_container as a
-		$query->select($db->quoteName(
-			array('a.id','a.asset_id','a.name','a.published','a.created_by','a.modified_by','a.created','a.modified','a.version','a.hits','a.ordering'),
-			array('id','asset_id','name','published','created_by','modified_by','created','modified','version','hits','ordering')));
-		$query->from($db->quoteName('#__eventschedule_container', 'a'));
+            $this->unscheduled = [];
+            // Get the events per containerOption and sectionOption; the raw events are in $this->items
+            foreach ($items as $item) {
 
-		// [VDM\Joomla\Componentbuilder\Compiler\Helper\Interpretation 4698] return the query object
-		return $query;
-	}
-
-	/**
-	 * Method to get an array of data items.
-	 *
-	 * @return  mixed  An array of data items on success, false on failure.
-	 * @since   1.6
-	 */
-	public function getItems()
-	{
-		$user = $this->user;
-		// [VDM\Joomla\Componentbuilder\Compiler\Helper\Interpretation 3540] check if this user has permission to access item
-		if (!$user->authorise('site.schedule.access', 'com_eventschedule'))
-		{
-			$app = Factory::getApplication();
-			$app->enqueueMessage(Text::_('COM_EVENTSCHEDULE_NOT_AUTHORISED_TO_VIEW_SCHEDULE'), 'error');
-			// [VDM\Joomla\Componentbuilder\Compiler\Helper\Interpretation 3535] redirect away to the home page if no access allowed.
-			$app->redirect(Uri::root());
-			return false;
-		}
-		// load parent items
-		$items = parent::getItems();
-
-		// Get the global params
-		$globalParams = ComponentHelper::getParams('com_eventschedule', true);
-
-		// [VDM\Joomla\Componentbuilder\Compiler\Helper\Interpretation 4729] Insure all item fields are adapted where needed.
-		if (UtilitiesArrayHelper::check($items))
-		{
-			foreach ($items as $nr => &$item)
-			{
-				// [VDM\Joomla\Componentbuilder\Compiler\Helper\Interpretation 4738] Always create a slug for sef URL's
-				$item->slug = ($item->id ?? '0') . (isset($item->alias) ? ':' . $item->alias : '');
-				// [VDM\Joomla\Componentbuilder\Compiler\Helper\Interpretation 3029] set idContainerSectionB to the $item object.
-				$item->idContainerSectionB = $this->getIdContainerSectionFfae_B($item->id);
-			}
-		}
-
-		// return items
-		return $items;
-	}
-
-	/**
-	 * Method to get the styles that have to be included on the view
-	 *
-	 * @return  array    styles files
-	 * @since   4.3
-	 */
-	public function getStyles(): array
-	{
-		return $this->styles;
-	}
-
-	/**
-	 * Method to set the styles that have to be included on the view
-	 *
-	 * @return  void
-	 * @since   4.3
-	 */
-	public function setStyles(string $path): void
-	{
-		$this->styles[] = $path;
-	}
-
-	/**
-	 * Method to get the script that have to be included on the view
-	 *
-	 * @return  array    script files
-	 * @since   4.3
-	 */
-	public function getScripts(): array
-	{
-		return $this->scripts;
-	}
-
-	/**
-	 * Method to set the script that have to be included on the view
-	 *
-	 * @return  void
-	 * @since   4.3
-	 */
-	public function setScript(string $path): void
-	{
-		$this->scripts[] = $path;
-	}
-
-	/**
-	 * Method to get an array of Section Objects.
-	 *
-	 * @return mixed  An array of Section Objects on success, false on failure.
-	 *
-	 */
-	public function getIdContainerSectionFfae_B($id)
-	{
-		// [VDM\Joomla\Componentbuilder\Compiler\Helper\Interpretation 4285] Get a db connection.
-		$db = $this->getDatabase();
-
-		// [VDM\Joomla\Componentbuilder\Compiler\Helper\Interpretation 4298] Create a new query object.
-		$query = $db->getQuery(true);
-
-		// [VDM\Joomla\Componentbuilder\Compiler\Helper\Interpretation 4303] Get from #__eventschedule_section as b
-		$query->select($db->quoteName(
-			array('b.id','b.asset_id','b.container','b.name','b.published','b.created_by','b.modified_by','b.created','b.modified','b.version','b.hits','b.ordering'),
-			array('id','asset_id','container','name','published','created_by','modified_by','created','modified','version','hits','ordering')));
-		$query->from($db->quoteName('#__eventschedule_section', 'b'));
-		$query->where('b.container = ' . $db->quote($id));
-
-		// [VDM\Joomla\Componentbuilder\Compiler\Helper\Interpretation 4382] Reset the query using our newly populated query object.
-		$db->setQuery($query);
-		$db->execute();
-
-		// [VDM\Joomla\Componentbuilder\Compiler\Helper\Interpretation 4388] check if there was data returned
-		if ($db->getNumRows())
-		{
-			return $db->loadObjectList();
-		}
-		return false;
-	}
+                // Make a new array for actors.
+                $item->actors = [];
+                // Get the actor-object from the ids in the junction table
+                /*
 
 
-	/**
-	 * Custom Method
-	 *
-	 * @return mixed  An array of objects on success, false on failure.
-	 *
-	 */
-	public function getEvents()
-	{
+                    $item->actorIds ... getActors()
+                }*/
 
-		// [VDM\Joomla\Componentbuilder\Compiler\Helper\Interpretation 3986] Get the global params
-		$globalParams = ComponentHelper::getParams('com_eventschedule', true);
-		// [VDM\Joomla\Componentbuilder\Compiler\Helper\Interpretation 4638] Get a db connection.
-		$db = $this->getDatabase();
 
-		// [VDM\Joomla\Componentbuilder\Compiler\Helper\Interpretation 4662] Create a new query object.
-		$query = $db->getQuery(true);
+                // If this event doesn't have a locator, then it is unscheduled.
+                if (empty($item->locators)) {
+                    $this->unscheduled[] = $item;
+                } else {
+                    // Expand the json-encoded locator-subfields
+                    // The LOCATORS will be stored as an array of subforms
+                    // Each subform will be stored as an object (with fields)
+                    $item->locators = json_decode($item->locators, false);
 
-		// [VDM\Joomla\Componentbuilder\Compiler\Helper\Interpretation 2437] Get from #__eventschedule_event as a
-		$query->select('a.*');
-		$query->from($db->quoteName('#__eventschedule_event', 'a'));
+                    // Add the event in the events array, including and indexed by locator-data.
+                    // The item will be placed multiple times if there are multiple locators.
+                    foreach ($item->locators as $locator) {
+                        // Add the locator-data to the event
+                        $event = clone $item;
+                        $event->container_id = $locator->container_id;
+                        $event->section_id = $locator->section_id;
+                        $event->starttime = $locator->starttime;
+                        $event->endtime = $locator->endtime;
 
-		// [VDM\Joomla\Componentbuilder\Compiler\Helper\Interpretation 4020] Reset the query using our newly populated query object.
-		$db->setQuery($query);
-		$items = $db->loadObjectList();
+                        // Add it to the events array, creating the section under the container if not exists.
+                        if (!array_key_exists($event->section_id, $this->events[$event->container_id])) {
+                            $this->events[$event->container_id][$event->section_id] = [];
+                        }
 
-		if (empty($items))
-		{
-			return false;
-		}
+                        // Put the event in the events-array.
+                        $this->events[$event->container_id][$event->section_id][$event->starttime] = $event;
+                    }
 
-		// [VDM\Joomla\Componentbuilder\Compiler\Helper\Interpretation 4729] Insure all item fields are adapted where needed.
-		if (UtilitiesArrayHelper::check($items))
-		{
-			foreach ($items as $nr => &$item)
-			{
-				// [VDM\Joomla\Componentbuilder\Compiler\Helper\Interpretation 4738] Always create a slug for sef URL's
-				$item->slug = ($item->id ?? '0') . (isset($item->alias) ? ':' . $item->alias : '');
-			}
-		}
-		// [VDM\Joomla\Componentbuilder\Compiler\Helper\Interpretation 4046] return items
-		return $items;
-	}
+                }
+
+            }
+
+        }
+
+        return $this->events;
+    }
+
+    /**
+     * Get the containerOptions in an array
+     * @return array
+     */
+    public function getContainerOptions():array
+    {
+        if (is_null($this->containerOptions)) {
+            // Create a new query object.
+            $db = $this->getDatabase();
+            $query = $db->getQuery(true);
+
+            // Select the required fields from the table.
+            $query->select([
+                $db->quoteName('container.container_name'),
+                $db->quoteName('container.id')
+            ]);
+            $query->from($db->quoteName('#__eventschedule_containers', 'container'));
+
+            $db->setQuery($query);
+            $this->containerOptions = $db->loadObjectList() ?: [];
+            // todo: set as an array of container-id => container_name
+        }
+
+        return $this->containerOptions;
+    }
+
+    /**
+     * Get the sectionOptions in an array
+     * @return array
+     */
+    public function getSectionOptions():array
+    {
+        if (is_null($this->sectionOptions)) {
+            // Create a new query object.
+            $db = $this->getDatabase();
+            $query = $db->getQuery(true);
+
+            // Select the required fields from the table.
+            $query->select([
+                $db->quoteName('section.section_name'),
+                $db->quoteName('section.id')
+            ]);
+            $query->from($db->quoteName('#__eventschedule_sections', 'section'));
+
+            $db->setQuery($query);
+            $this->sectionOptions = $db->loadObjectList() ?: [];
+            // todo: set as an array of section-id => section_name
+        }
+
+
+        return $this->sectionOptions;
+    }
+
+    /**
+     * Get the time interval for the schedule.
+     * @return integer
+     */
+    public function getTimeInterval():int
+    {
+        if (is_null($this->timeInterval)) {
+            $params = $this->getParams();
+            $timeIntervalMap = [1 => 30, 2 =>15, 3 => 10, 4 => 5];
+            $this->timeInterval = $timeIntervalMap[(int) $params->get('height-px-per-minute')];
+        }
+
+        return $this->timeInterval;
+    }
+
+    /**
+     * Get the component's params (for general display properties)
+     * @return array
+     */
+    public function getTimeslots():array
+    {
+        if (is_null($this->timeSlots)) {
+            // Get the timeslots
+            $params = $this->getParams();
+            $startTime = new \DateTime($params->get('schedule_start'));
+            $endTime = new \DateTime($params->get('schedule_end'));
+            // Translate pixels per minute to time-interval on timeline
+            $timeInterval = $this->getTimeInterval();
+            $this->timeSlots = [];
+            // todo: round starttime and endtime to units of timeInterval
+
+            while ($startTime <= $endTime) {
+                $this->timeSlots[] = $startTime->format('H:i');
+                $startTime->modify('+' . $timeInterval . ' minutes');
+            }
+        }
+
+        return $this->timeSlots;
+    }
+
+    /**
+     * Get the eventTypes in an array
+     * @return array
+     */
+    public function getEventTypes():array
+    {
+        if (is_null($this->eventTypes)) {
+            // Create a new query object.
+            $db = $this->getDatabase();
+            $query = $db->getQuery(true);
+
+            // Select the required fields from the table.
+            $query->select([
+                $db->quoteName('event_type.event_type_name'),
+                $db->quoteName('event_type.id'),
+                $db->quoteName('event_type.css_class'),
+                $db->quoteName('event_type.background_color')
+            ]);
+            $query->from($db->quoteName('#__eventschedule_event_types', 'event_type'));
+
+            $db->setQuery($query);
+            $this->eventTypes = $db->loadObjectList() ?: [];
+            // todo: set as an array of event_type-id => event_type_name
+        }
+
+
+        return $this->eventTypes;
+    }
+
+    /**
+     * Get the component's params (for general display properties)
+     * @return Registry
+     */
+    public function getParams():Registry
+    {
+        if (is_null($this->params)) {
+            $this->params = $this->app->getParams();
+        }
+
+        return $this->params;
+    }
+
+    /**
+     * Build an SQL query to load the list data for the getItems()-method.
+     * We basicly get the events and the joined event types.
+     * In getEvents() we use these items to expand the locators and to add the actors.
+     *
+     * @return  QueryInterface
+     */
+    protected function getListQuery():QueryInterface
+    {
+        // Create a new query object.
+        $db = $this->getDatabase();
+        $query = $db->getQuery(true);
+
+        // Select the required fields from the table.
+        $query->select([
+            $db->quoteName('event.event_name'),
+            $db->quoteName('event.short_description'),
+            $db->quoteName('event.long_description'),
+            $db->quoteName('event.duration'),
+            $db->quoteName('event_type.event_type_name'),
+            $db->quoteName('event.event_type_id'),
+            $db->quoteName('event_type.css_class'),
+            $db->quoteName('event_type.background_color'),
+            $db->quoteName('event.locators'),// JSON-string; unpack if you want to display this...
+            $db->quoteName('event.id')
+        ])
+            ->from($db->quoteName('#__eventschedule_events', 'event'))
+            ->join(
+                'LEFT',
+                $db->quoteName('#__eventschedule_event_types', 'event_type'),
+                $db->quoteName('event.event_type_id') . ' = ' . $db->quoteName('event_type.id')
+            );
+
+        return $query;
+    }
+
 }

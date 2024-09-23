@@ -47,7 +47,5 @@
             description="COM_EVENTSCHEDULE_LOCATOR_FIELD_ENDTIME_DESC"
     />
 
-    <field name="id" type="hidden"/>
-
   </fieldset>
 </form>

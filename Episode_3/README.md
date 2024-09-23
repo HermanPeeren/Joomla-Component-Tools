@@ -6,7 +6,9 @@ As we've spent most time on the basic backend, you'll find the entities and
 their relations in the administrator as described in the article. 
 Also the cascading dynamic select boxes are in this example.
 
-The basic frontend (with the schedule) will be finished the coming days. 
+The basic frontend (with the schedule) is about the same as we saw in episode 1, 
+but now the variables are prepared in the model and put into the view + template layout. 
+The actors and some styling still have to be done.
 
 ## Relations
 Emphasis in this episode was on relations.

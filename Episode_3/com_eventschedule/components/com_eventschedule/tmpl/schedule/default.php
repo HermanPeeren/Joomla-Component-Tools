@@ -1,69 +1,52 @@
 <?php
-/*----------------------------------------------------------------------------------|  www.vdm.io  |----/
-				TLWebdesign 
-/-------------------------------------------------------------------------------------------------------/
+/**
+ * @package    EventSchedule
+ * @subpackage com_eventschedule
+ * @version    1.0.0
+ *
+ * @copyright  Herman Peeren, Yepr
+ * @license    GPL vs3+
+ */
 
-	@version		1.0.2
-	@build			11th June, 2024
-	@created		23rd May, 2024
-	@package		Event Schedule
-	@subpackage		default.php
-	@author			Tom van der Laan <https://tlwebdesign.nl>	
-	@copyright		Copyright (C) 2015. All Rights Reserved
-	@license		GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html
-  ____  _____  _____  __  __  __      __       ___  _____  __  __  ____  _____  _  _  ____  _  _  ____ 
- (_  _)(  _  )(  _  )(  \/  )(  )    /__\     / __)(  _  )(  \/  )(  _ \(  _  )( \( )( ___)( \( )(_  _)
-.-_)(   )(_)(  )(_)(  )    (  )(__  /(__)\   ( (__  )(_)(  )    (  )___/ )(_)(  )  (  )__)  )  (   )(  
-\____) (_____)(_____)(_/\/\_)(____)(__)(__)   \___)(_____)(_/\/\_)(__)  (_____)(_)\_)(____)(_)\_) (__) 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
-/------------------------------------------------------------------------------------------------------*/
+use Joomla\CMS\HTML\HTMLHelper;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\HTML\HTMLHelper as Html;
-use TLWeb\Component\Eventschedule\Site\Helper\EventscheduleHelper;
-
-// No direct access to this file
-defined('_JEXEC') or die;
-
-
-/***[JCBGUI.site_view.php_view.26.$$$$]***/
-Html::_('bootstrap.tab', '#myTab', []);
-
-$this->dataArray= array();
-$eventsArray = array();
-foreach ($this->events as $event) {
-    $eventArray['id'] = $event->id; 
-    $eventArray['starttime'] = $event->starttime; 
-    $eventArray['endtime'] = $event->endtime; 
-    $eventArray['tags'] = $event->tags; 
-    $eventArray['article'] = $event->article; 
-    $eventArray['description'] = $event->description; 
-    $eventArray['name'] = $event->name; 
-    $sections = json_decode($event->section,true);
-    $eventArray['section'] = $sections;
-    foreach ($sections as $section) {
-        $eventsArray[$section][$event->id]= $eventArray;
-    }
-}
-
-foreach ($this->items as $item) {
-    $this->dataArray[$item->id]['id'] = $item->id;
-    $this->dataArray[$item->id]['name'] = $item->name;
-    foreach ($item->idContainerSectionB as $section) {
-        $this->dataArray[$section->container]['sections'][$section->id]['id'] = $section->id;
-        $this->dataArray[$section->container]['sections'][$section->id]['container'] = $section->container;
-        $this->dataArray[$section->container]['sections'][$section->id]['name'] = $section->name;
-        $this->dataArray[$section->container]['sections'][$section->id]['events'] = $eventsArray[$section->id];
-    }
-}/***[/JCBGUI$$$$]***/
-
-
+// In this main template the containers are rendered as tabs
+HTMLHelper::_('bootstrap.tab', '#myTab', []);
 ?>
-<?php echo $this->toolbar->render(); ?>
 
-<!--[JCBGUI.site_view.default.26.$$$$]-->
-<?php echo $this->loadTemplate('tabs'); ?><!--[/JCBGUI$$$$]-->
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <?php
+    $first = true; $i=0;
+    foreach ($this->containerOptions as $containerOption) : ?>
+
+        <li class="nav-item" role="presentation">
+            <button class="nav-link <?php echo ($first) ? 'active': ''; ?>" id="containertab-<?php echo $i; ?>" data-bs-toggle="tab" data-bs-target="#containertab-<?php echo $i; ?>-pane" type="button" role="tab" aria-controls="containertab-<?php echo $i; ?>-pane" aria-selected="<?php echo ($first) ? 'true': ''; ?>">
+                <?php echo $containerOption->container_name; ?></button>
+        </li>
+    <?php 
+        $first = false;
+        $i++;
+    endforeach; 
+    ?>
+</ul>
+
+<?php
+$first = true; $i=0; ?>
+<?php foreach ($this->containerOptions as $containerOption): ?>
+    <div class="tab-content" id="containertab-<?php echo $i; ?>-content">
+        <div class="tab-pane fade <?php echo ($first) ? 'show active': ''; ?>" id="containertab-<?php echo $i; ?>-pane" role="tabpanel" aria-labelledby="containertab-<?php echo $i; ?>" tabindex="0">
+          <?php 
+              $this->containerId = $containerOption->id;
+              echo $this->loadTemplate('schedule'); ?>
+        </div>
+    </div>
+<?php 
+$first = false; $i++; ?>
+<?php endforeach; ?>
+
+
 

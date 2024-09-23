@@ -1,8 +1,7 @@
 <?php
-
 /**
  * @package    EventSchedule
- * @subpackage eventschedule
+ * @subpackage com_eventschedule
  * @version    1.0.0
  *
  * @copyright  Herman Peeren, Yepr

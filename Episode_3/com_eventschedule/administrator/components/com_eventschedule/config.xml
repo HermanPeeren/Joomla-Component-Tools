@@ -1,9 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 	<fieldset
-			name="projects"
-			label="COM_EVENTSCHEDULE_PROJECT_FIELD_CONFIG_COMMON_DISPLAY"
-			description="COM_EVENTSCHEDULE_PROJECT_FIELD_CONFIG_COMMON_DESC"
+			name="general"
+			label="COM_EVENTSCHEDULE_CONFIG_GENERAL_DISPLAY"
+			description="COM_EVENTSCHEDULE_CONFIG_GENERAL_DESC"
+	>
+		<field
+				name="schedule_start"
+				type="text"
+				label="COM_EVENTSCHEDULE_CONFIG_FIELD_SCHEDULE_START_DISPLAY"
+				description="COM_EVENTSCHEDULE_CONFIG_FIELD_SCHEDULE_START_DESC"
+				default="8:00"
+		/>
+
+		<field
+				name="schedule_end"
+				type="text"
+				label="COM_EVENTSCHEDULE_CONFIG_FIELD_SCHEDULE_END_DISPLAY"
+				description="COM_EVENTSCHEDULE_CONFIG_FIELD_SCHEDULE_END_DESC"
+				default="23:00"
+		/>
+
+		<field
+				name="height-px-per-minute"
+				type="number"
+				label="COM_EVENTSCHEDULE_CONFIG_FIELD_HEIGHT_PER_MINUTE_DISPLAY"
+				description="COM_EVENTSCHEDULE_CONFIG_FIELD_HEIGHT_PER_MINUTE_DESC"
+				min="1"
+				max="4"
+				step="1"
+				default="2"
+		/>
+
+	</fieldset>
+	<fieldset
+			name="common"
+			label="COM_EVENTSCHEDULE_CONFIG_COMMON_DISPLAY"
+			description="COM_EVENTSCHEDULE_CONFIG_COMMON_DESC"
 	>
 		<field
 				name="custom_fields_enable"

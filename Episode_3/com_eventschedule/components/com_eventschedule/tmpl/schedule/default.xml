@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <metadata>
-	<layout title="COM_EVENTSCHEDULE_MENU_SCHEDULE_TITLE" option="COM_EVENTSCHEDULE_MENU_SCHEDULE_OPTION">
+	<layout title="COM_EVENTSCHEDULE_MENU_SCHEDULE_TITLE">
 		<message>
 			<![CDATA[COM_EVENTSCHEDULE_MENU_SCHEDULE_DESC]]>
 		</message>
