@@ -12,6 +12,11 @@
       "dependencies": [
         "webcomponent.core-loader"
       ]
+    },
+    {
+      "name": "com_eventschedule.eventschedule",
+      "type": "style",
+      "uri": "com_eventschedule/eventschedule.css"
     }
   ]
 }

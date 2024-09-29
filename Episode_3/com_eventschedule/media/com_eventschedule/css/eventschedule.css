@@ -6,11 +6,12 @@
     border:1px solid gray;
 }
 
-.event-content a{
+.event-content a, .event-content a:hover, .event-content a:not([class]){
     color: black;
     text-decoration: none;
 }
-.event-general{
+/*colors are now inline set in the component per event type*/
+/*.event-general{
     background-color: #eaac67; 
 }
 
@@ -28,7 +29,7 @@
 
 .event-workshop {
     background-color: #ffde7e;
-}
+}*/
 
 .eventtype-legenda span{
     font-size: .8rem;

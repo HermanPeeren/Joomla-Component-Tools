@@ -14,6 +14,11 @@
 
 use Joomla\CMS\HTML\HTMLHelper;
 
+// Set the stylesheet
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useStyle('com_eventschedule.eventschedule');
+
 // In this main template the containers are rendered as tabs
 HTMLHelper::_('bootstrap.tab', '#myTab', []);
 ?>
