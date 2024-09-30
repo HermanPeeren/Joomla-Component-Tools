@@ -20,7 +20,7 @@ $link = Route::_('/index.php?option=com_eventschedule&view=event&id=' . $this->e
 $actorNames=[];
 foreach ($this->event->actors as $actor)
   {
-     $actorNames[] = $actor->title; // todo: link to actor-page with a modal. Link to article with id.
+     $actorNames[] = $actor->actor_name; // todo: link to actor-page with a modal. Link to article with id.
   }
 $actors = implode (', ',$actorNames); 
 
@@ -32,7 +32,7 @@ $actors = implode (', ',$actorNames);
               background-color: #<?= $this->event->background_color; ?>;">
   
     <a href="<?= $link; ?>">
-      <div style="width:100%;height:100%">
+      <div style="position: relative;width:100%;height:100%">
         <strong><?= $this->event->starttime; ?> - <?= $this->event->endtime; ?></strong>   
         <?= $this->event->event_name; ?>
   
@@ -41,7 +41,7 @@ $actors = implode (', ',$actorNames);
         <?php endif; ?> 
   
         <?php if (!empty($actors)): ?>        
-        <p>(<?= $actors; ?>)</p>
+        <p style="position: absolute;bottom: 0">(<?= $actors; ?>)</p>
         <?php endif; ?>
       </div>
     </a>

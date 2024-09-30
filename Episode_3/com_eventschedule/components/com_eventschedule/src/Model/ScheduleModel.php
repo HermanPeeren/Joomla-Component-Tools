@@ -81,15 +81,8 @@ class ScheduleModel extends ListModel
             // Get the events per containerOption and sectionOption; the raw events are in $this->items
             foreach ($items as $item) {
 
-                // Make a new array for actors.
-                $item->actors = [];
-                // Get the actor-object from the ids in the junction table
-                /*
-
-
-                    $item->actorIds ... getActors()
-                }*/
-
+                // Add an array of actors. Put the whole actor object in it, so we have all data available in a template
+                $item->actors = $this->getActors($item->id);
 
                 // If this event doesn't have a locator, then it is unscheduled.
                 if (empty($item->locators)) {
@@ -248,6 +241,37 @@ class ScheduleModel extends ListModel
 
 
         return $this->eventTypes;
+    }
+
+    /**
+     * Get the actors who do an event in an array
+     *
+     * @param  int    $event_id
+     * @return array
+     */
+    public function getActors(int $event_id):array
+    {
+       
+            // Create a new query object.
+            $db = $this->getDatabase();
+            $query = $db->getQuery(true);
+
+            // Select the required fields from the table.
+            $query->select([
+                $db->quoteName('actor.actor_name'),
+                $db->quoteName('actor.id'),
+                $db->quoteName('actor.biography'),
+                $db->quoteName('actor.actor_image')
+            ]);
+            $query->from($db->quoteName('#__eventschedule_actors', 'actor'));
+            $query->join('INNER', $db->quoteName('#__eventschedule_actor_event', 'junction'),
+                $db->quoteName('junction.actor_id') . ' = ' . $db->quoteName('actor.id'));
+            $query->where($db->quoteName('junction.event_id') . ' = ' . $db->quote($event_id));
+
+            $db->setQuery($query);
+            $actors = $db->loadObjectList() ?: [];
+
+        return $actors;
     }
 
     /**
