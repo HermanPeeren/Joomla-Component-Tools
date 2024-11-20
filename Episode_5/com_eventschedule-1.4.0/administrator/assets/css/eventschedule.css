@@ -1,0 +1,83 @@
+.icon-48-eventschedules {
+      background-image: url(../images/l_eventschedules.png);
+      padding-left:60px!important;
+}
+
+.icon-48-eventschedule {
+      background-image: url(../images/l_eventschedules.png);
+      padding-left:60px!important;
+}
+
+.color-box-eventschedules { 
+      float: left;      width: 15px;      height: 15px;      margin-right: 5px;      border: 1px solid rgba(0, 0, 0, .2);}
+
+.icon-48-containers {
+      background-image: url(../images/l_containers.png);
+      padding-left:60px!important;
+}
+
+.icon-48-container {
+      background-image: url(../images/l_containers.png);
+      padding-left:60px!important;
+}
+
+.color-box-containers { 
+      float: left;      width: 15px;      height: 15px;      margin-right: 5px;      border: 1px solid rgba(0, 0, 0, .2);}
+
+.icon-48-sections {
+      background-image: url(../images/l_sections.png);
+      padding-left:60px!important;
+}
+
+.icon-48-section {
+      background-image: url(../images/l_sections.png);
+      padding-left:60px!important;
+}
+
+.color-box-sections { 
+      float: left;      width: 15px;      height: 15px;      margin-right: 5px;      border: 1px solid rgba(0, 0, 0, .2);}
+
+.icon-48-actors {
+      background-image: url(../images/l_actors.png);
+      padding-left:60px!important;
+}
+
+.icon-48-actor {
+      background-image: url(../images/l_actors.png);
+      padding-left:60px!important;
+}
+
+.color-box-actors { 
+      float: left;      width: 15px;      height: 15px;      margin-right: 5px;      border: 1px solid rgba(0, 0, 0, .2);}
+
+.icon-48-events {
+      background-image: url(../images/l_events.png);
+      padding-left:60px!important;
+}
+
+.icon-48-event {
+      background-image: url(../images/l_events.png);
+      padding-left:60px!important;
+}
+
+.color-box-events { 
+      float: left;      width: 15px;      height: 15px;      margin-right: 5px;      border: 1px solid rgba(0, 0, 0, .2);}
+
+.icon-48-eventtypes {
+      background-image: url(../images/l_eventtypes.png);
+      padding-left:60px!important;
+}
+
+.icon-48-eventtype {
+      background-image: url(../images/l_eventtypes.png);
+      padding-left:60px!important;
+}
+
+.color-box-eventtypes { 
+      float: left;      width: 15px;      height: 15px;      margin-right: 5px;      border: 1px solid rgba(0, 0, 0, .2);}
+
+
+
+.other-filters{
+    padding: 0 14px;
+}

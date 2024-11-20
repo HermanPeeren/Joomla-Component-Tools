@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="4.0" method="upgrade" client="site">
+    <name>MOD_EVENTSCHEDULE_NAME</name>
+    <creationDate>2024-11-20</creationDate>
+    <copyright>2024 Herman Peeren</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <author>Herman Peeren</author>
+    <authorEmail>herman@yepr.nl</authorEmail>
+    <authorUrl>http://hermanpeeren.nl</authorUrl>
+    <version>CVS: 1.4.0</version>
+    <description>MOD_EVENTSCHEDULE_DESCRIPTION</description>
+    <namespace path="src">Yepr\Module\Eventschedule</namespace>
+    
+    <files>
+        <filename module="mod_eventschedule">mod_eventschedule.php</filename>
+        <filename>index.html</filename>
+        <folder>src</folder>
+        <folder>tmpl</folder>
+    </files>
+    <media destination="mod_eventschedule" folder="media">
+        <folder>css</folder>
+        <folder>js</folder>
+        <filename>joomla.asset.json</filename>
+    </media>
+    <languages folder="language">
+        
+			<language tag="nl-NL">nl-NL/mod_eventschedule.ini</language>
+			<language tag="nl-NL">nl-NL/mod_eventschedule.sys.ini</language>
+			<language tag="en-GB">en-GB/mod_eventschedule.ini</language>
+			<language tag="en-GB">en-GB/mod_eventschedule.sys.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
+            <fieldset 
+                name="content_type" 
+                label="MOD_EVENTSCHEDULE_CONTENT_TYPE_TAB_LBL"
+                description="MOD_EVENTSCHEDULE_CONTENT_TYPE_TAB_DESC">
+                <field
+                    name="content_type" type="list"
+                    label="MOD_EVENTSCHEDULE_CONTENT_TYPE_LBL"
+                    description="MOD_EVENTSCHEDULE_CONTENT_TYPE_DESC">
+                    <option value="blank">MOD_EVENTSCHEDULE_CUSTOM_CONTENT</option>
+                    <option value="list">MOD_EVENTSCHEDULE_LIST</option>
+                    <option value="item">MOD_EVENTSCHEDULE_ITEM</option>
+                </field>
+            </fieldset>
+            <fieldset 
+                name="blank_content" 
+                label="MOD_EVENTSCHEDULE_CUSTOM_CONTENT_TAB_LBL"
+                description="MOD_EVENTSCHEDULE_CUSTOM_CONTENT_TAB_DESC">
+                <field 
+                    name="html_content" type="editor" filter="safehtml"
+                    label="MOD_EVENTSCHEDULE_HTML_LBL"
+                    description="MOD_EVENTSCHEDULE_HTML_DESC" />
+            </fieldset>
+            <fieldset 
+                name="list_content" 
+                label="MOD_EVENTSCHEDULE_LIST_CONTENT_TAB_LBL"
+                description="MOD_EVENTSCHEDULE_LIST_CONTENT_TAB_DESC">
+                <field
+                    name="table" type="list"
+                    label="MOD_EVENTSCHEDULE_TABLE_LBL"
+                    description="MOD_EVENTSCHEDULE_TABLE_DESC">
+                    
+	<option value="#__eventschedule_eventschedules">#__eventschedule_eventschedules</option>
+	<option value="#__eventschedule_containers">#__eventschedule_containers</option>
+	<option value="#__eventschedule_sections">#__eventschedule_sections</option>
+	<option value="#__eventschedule_actors">#__eventschedule_actors</option>
+	<option value="#__eventschedule_events">#__eventschedule_events</option>
+	<option value="#__eventschedule_event_types">#__eventschedule_event_types</option>
+                </field>
+                <field 
+                    name="field" type="groupedlist" default=""
+                    label="MOD_EVENTSCHEDULE_FIELD_LBL"
+                    description="MOD_EVENTSCHEDULE_FIELD_DESC">
+                    
+	<group label="#__eventschedule_eventschedules">
+		<option value="#__eventschedule_eventschedules:id">id</option>
+		<option value="#__eventschedule_eventschedules:path">path</option>
+		<option value="#__eventschedule_eventschedules:level">level</option>
+		<option value="#__eventschedule_eventschedules:rgt">rgt</option>
+		<option value="#__eventschedule_eventschedules:lft">lft</option>
+		<option value="#__eventschedule_eventschedules:schedule_name">schedule_name</option>
+		<option value="#__eventschedule_eventschedules:alias">alias</option>
+		<option value="#__eventschedule_eventschedules:access">access</option>
+		<option value="#__eventschedule_eventschedules:title">title</option>
+		<option value="#__eventschedule_eventschedules:parent_id">parent_id</option>
+	</group>
+	<group label="#__eventschedule_containers">
+		<option value="#__eventschedule_containers:id">id</option>
+		<option value="#__eventschedule_containers:container_name">container_name</option>
+		<option value="#__eventschedule_containers:alias">alias</option>
+		<option value="#__eventschedule_containers:schedule">schedule</option>
+	</group>
+	<group label="#__eventschedule_sections">
+		<option value="#__eventschedule_sections:id">id</option>
+		<option value="#__eventschedule_sections:section_name">section_name</option>
+		<option value="#__eventschedule_sections:container_ids">container_ids</option>
+		<option value="#__eventschedule_sections:schedule">schedule</option>
+	</group>
+	<group label="#__eventschedule_actors">
+		<option value="#__eventschedule_actors:id">id</option>
+		<option value="#__eventschedule_actors:actor_name">actor_name</option>
+		<option value="#__eventschedule_actors:actor_image">actor_image</option>
+		<option value="#__eventschedule_actors:biography">biography</option>
+		<option value="#__eventschedule_actors:website">website</option>
+		<option value="#__eventschedule_actors:events">events</option>
+		<option value="#__eventschedule_actors:schedule">schedule</option>
+	</group>
+	<group label="#__eventschedule_events">
+		<option value="#__eventschedule_events:id">id</option>
+		<option value="#__eventschedule_events:created_by">created_by</option>
+		<option value="#__eventschedule_events:modified_by">modified_by</option>
+		<option value="#__eventschedule_events:event_name">event_name</option>
+		<option value="#__eventschedule_events:short_description">short_description</option>
+		<option value="#__eventschedule_events:long_description">long_description</option>
+		<option value="#__eventschedule_events:duration">duration</option>
+		<option value="#__eventschedule_events:event_type">event_type</option>
+		<option value="#__eventschedule_events:locators">locators</option>
+		<option value="#__eventschedule_events:actors">actors</option>
+		<option value="#__eventschedule_events:schedule">schedule</option>
+	</group>
+	<group label="#__eventschedule_event_types">
+		<option value="#__eventschedule_event_types:id">id</option>
+		<option value="#__eventschedule_event_types:created_by">created_by</option>
+		<option value="#__eventschedule_event_types:modified_by">modified_by</option>
+		<option value="#__eventschedule_event_types:event_type_name">event_type_name</option>
+		<option value="#__eventschedule_event_types:css_class">css_class</option>
+		<option value="#__eventschedule_event_types:backgroundcolor">backgroundcolor</option>
+		<option value="#__eventschedule_event_types:schedule">schedule</option>
+	</group>
+                </field>
+                <field 
+                    name="offset" type="text" default="0" filter="uint" class="input-small"
+                    label="MOD_EVENTSCHEDULE_OFFSET_LBL"
+                    description="MOD_EVENTSCHEDULE_OFFSET_DESC" />
+                <field 
+                    name="limit" type="text" default="10" filter="uint" class="input-small"
+                    label="MOD_EVENTSCHEDULE_LIMIT_LBL"
+                    description="MOD_EVENTSCHEDULE_LIMIT_DESC" />
+            </fieldset>
+            <fieldset 
+                name="item_content" 
+                label="MOD_EVENTSCHEDULE_ITEM_CONTENT_TAB"
+                description="MOD_EVENTSCHEDULE_ITEM_CONTENT_TAB_DESC">
+                <field
+                    name="item_table" type="list"
+                    label="MOD_EVENTSCHEDULE_TABLE_LBL"
+                    description="MOD_EVENTSCHEDULE_TABLE_DESC">
+                    
+	<option value="#__eventschedule_eventschedules">#__eventschedule_eventschedules</option>
+	<option value="#__eventschedule_containers">#__eventschedule_containers</option>
+	<option value="#__eventschedule_sections">#__eventschedule_sections</option>
+	<option value="#__eventschedule_actors">#__eventschedule_actors</option>
+	<option value="#__eventschedule_events">#__eventschedule_events</option>
+	<option value="#__eventschedule_event_types">#__eventschedule_event_types</option>
+                </field>
+                <field 
+                    name="item_id" type="text" filter="uint" class="input-small"
+                    label="MOD_EVENTSCHEDULE_ITEM_ID_LBL"
+                    description="MOD_EVENTSCHEDULE_ITEM_ID_DESC"
+                />
+            </fieldset>
+        </fields>
+    </config>
+    <updateservers>
+        <server type="extension" priority="1" name="com_eventschedule">https://www.component-creator.com/index.php?task=builder.preupdatecheckhook&amp;option=com_combuilder&amp;component=NzA2OC0yMTMyOTA</server>
+    </updateservers>
+</extension>

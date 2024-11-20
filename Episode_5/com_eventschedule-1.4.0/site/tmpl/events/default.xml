@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_EVENTSCHEDULE_TITLE_LIST_VIEW_EVENTS" option="View">
+        <message>
+                        <![CDATA[COM_EVENTSCHEDULE_TITLE_LIST_VIEW_EVENTS_DESC]]>
+        </message>
+	</layout>
+	
+</metadata>

@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<component>
+  <table action="add" table_name="#__eventschedule_containers" storage_engine="" collation="utf8mb4_unicode_ci">
+    <field field_name="id" field_type="INT" field_length="11" is_autoincrement="1" index="primary" description=""/>
+    <field field_name="state" field_type="TINYINT" field_length="1" index="index" description=""/>
+    <field field_name="ordering" field_type="INT" field_length="11" default="0" index="index" description=""/>
+    <field field_name="checked_out" field_type="INT" field_length="11" index="index" description=""/>
+    <field field_name="checked_out_time" field_type="DATETIME" description=""/>
+    <field field_name="container_name" field_type="VARCHAR" field_length="255" description="The name of the container, that holds one time-schedule."/>
+    <field field_name="alias" field_type="VARCHAR" field_length="255" description="a field that can be used as a slug  in URLs."/>
+    <field field_name="schedule" field_type="INT" default="0" field_length="11" description=""/>
+  </table>
+  <table action="add" table_name="#__eventschedule_sections" storage_engine="" collation="utf8mb4_unicode_ci">
+    <field field_name="section_name" field_type="VARCHAR" field_length="255" description="The name of a section."/>
+    <field field_name="id" field_type="INT" field_length="11" is_autoincrement="1" index="primary" description=""/>
+    <field field_name="state" field_type="TINYINT" field_length="1" index="index" description=""/>
+    <field field_name="ordering" field_type="INT" field_length="11" default="0" index="index" description=""/>
+    <field field_name="checked_out" field_type="INT" field_length="11" index="index" description=""/>
+    <field field_name="checked_out_time" field_type="DATETIME" description=""/>
+    <field field_name="container_ids" field_type="TEXT" description="Choose the containers this section can be used in."/>
+    <field field_name="schedule" field_type="INT" default="0" field_length="11" description=""/>
+  </table>
+  <table action="add" table_name="#__eventschedule_events" storage_engine="" collation="utf8mb4_unicode_ci">
+    <field field_name="event_name" field_type="VARCHAR" field_length="255" description="Name of the event "/>
+    <field field_name="short_description" field_type="TEXT" description="Short indication what the event is about."/>
+    <field field_name="id" field_type="INT" field_length="11" is_autoincrement="1" index="primary" description=""/>
+    <field field_name="long_description" field_type="TEXT" description=""/>
+    <field field_name="duration" field_type="DOUBLE" description="Number of minutes the event takes."/>
+    <field field_name="event_type" field_type="INT" default="0" field_length="11" description=""/>
+    <field field_name="checked_out" field_type="INT" field_length="11" index="index" description=""/>
+    <field field_name="checked_out_time" field_type="DATETIME" description=""/>
+    <field field_name="locators" field_type="TEXT" description="where &amp; when"/>
+    <field field_name="created_by" field_type="INT" field_length="11" index="index" description=""/>
+    <field field_name="actors" field_type="TEXT" description="Select all actors doing this event."/>
+    <field field_name="modified_by" field_type="INT" field_length="11" index="index" description=""/>
+    <field field_name="state" field_type="TINYINT" field_length="1" index="index" description=""/>
+    <field field_name="schedule" field_type="INT" default="0" field_length="11" description=""/>
+    <field action="remove" field_name="category"/>
+    <field action="remove" field_name="tags"/>
+  </table>
+  <table action="add" table_name="#__eventschedule_event_types" storage_engine="" collation="utf8mb4_unicode_ci">
+    <field field_name="id" field_type="INT" field_length="11" is_autoincrement="1" index="primary" description=""/>
+    <field field_name="state" field_type="TINYINT" field_length="1" index="index" description=""/>
+    <field field_name="ordering" field_type="INT" field_length="11" default="0" index="index" description=""/>
+    <field field_name="checked_out" field_type="INT" field_length="11" index="index" description=""/>
+    <field field_name="checked_out_time" field_type="DATETIME" description=""/>
+    <field field_name="created_by" field_type="INT" field_length="11" index="index" description=""/>
+    <field field_name="modified_by" field_type="INT" field_length="11" index="index" description=""/>
+    <field field_name="event_type_name" field_type="VARCHAR" field_length="255" description=""/>
+    <field field_name="css_class" field_type="VARCHAR" field_length="255" description="If you want multiple css-classes, please separate with a space."/>
+    <field field_name="backgroundcolor" field_type="VARCHAR" field_length="22" description="Background color of this type of event in the time schedule. For instance; give all beginners-events a green background."/>
+    <field field_name="schedule" field_type="INT" default="0" field_length="11" description=""/>
+  </table>
+  <table action="add" table_name="#__eventschedule_eventschedules" storage_engine="" collation="utf8mb4_unicode_ci">
+    <field field_name="id" field_type="INT" field_length="11" is_autoincrement="1" index="primary" description=""/>
+    <field field_name="state" field_type="TINYINT" field_length="1" index="index" description=""/>
+    <field field_name="ordering" field_type="INT" field_length="11" default="0" index="index" description=""/>
+    <field field_name="checked_out" field_type="INT" field_length="11" index="index" description=""/>
+    <field field_name="checked_out_time" field_type="DATETIME" description=""/>
+    <field action="change" field_name="schedule_name" field_type="VARCHAR" field_length="255" description="Name of the happening where the events are scheduled, for instance: JoomlaDay Netherlands 2024."/>
+    <field field_name="alias" field_type="VARCHAR(255) COLLATE utf8_bin" index="index" description=""/>
+    <field field_name="path" field_type="VARCHAR" field_length="255" index="index" description=""/>
+    <field field_name="access" field_type="INT" field_length="11" index="index" description=""/>
+    <field field_name="level" field_type="INT" field_length="10" index="index" description=""/>
+    <field field_name="title" field_type="VARCHAR" field_length="255" index="index" description=""/>
+    <field field_name="rgt" field_type="INT" field_length="11" index="index" description=""/>
+    <field field_name="lft" field_type="INT" field_length="11" index="index" description=""/>
+    <field field_name="parent_id" field_type="INT" field_length="11" index="index" description=""/>
+  </table>
+  <table action="add" table_name="#__eventschedule_actors" storage_engine="" collation="utf8mb4_unicode_ci">
+    <field field_name="id" field_type="INT" field_length="11" is_autoincrement="1" index="primary" description=""/>
+    <field field_name="state" field_type="TINYINT" field_length="1" index="index" description=""/>
+    <field field_name="checked_out" field_type="INT" field_length="11" index="index" description=""/>
+    <field field_name="checked_out_time" field_type="DATETIME" description=""/>
+    <field field_name="actor_name" field_type="VARCHAR" field_length="255" description="The name of the person or group who does the event. For instance the speaker who gives a talk."/>
+    <field action="change" field_name="actor_image" field_type="TEXT" description="Get an image of this actor from the Media Manager. If ther is none, upload it."/>
+    <field field_name="biography" field_type="TEXT" description=""/>
+    <field field_name="website" field_type="VARCHAR" field_length="255" description="The website of this actor"/>
+    <field action="change" field_name="events" field_type="TEXT" description="Events done by this actor. &#13;&#10;N.B.: separately add this actor to those events."/>
+    <field field_name="schedule" field_type="INT" default="0" field_length="11" description=""/>
+  </table>
+</component>

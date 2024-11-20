@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="4.0" type="plugin" group="finder">
+    <name>plg_finder_eventscheduleactors</name>
+    <author>Herman Peeren</author>
+    <creationDate>2024-11-20</creationDate>
+    <copyright>2024 Herman Peeren</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <authorEmail>herman@yepr.nl</authorEmail>
+    <authorUrl>http://hermanpeeren.nl</authorUrl>
+    <version>CVS: 1.4.0</version>
+    <description>PLG_FINDER_COM_EVENTSCHEDULE_XML_DESCRIPTION</description>
+    <files>
+        <filename plugin="eventscheduleactors">eventscheduleactors.php</filename>
+        <filename>index.html</filename>
+    </files>
+    <languages folder="languages">
+        
+			<language tag="nl-NL">nl-NL/plg_finder_eventscheduleactors.ini</language>
+			<language tag="nl-NL">nl-NL/plg_finder_eventscheduleactors.sys.ini</language>
+			<language tag="en-GB">en-GB/plg_finder_eventscheduleactors.ini</language>
+			<language tag="en-GB">en-GB/plg_finder_eventscheduleactors.sys.ini</language>
+    </languages>
+    <config>
+    </config>
+    <updateservers>
+        <server type="extension" priority="1" name="com_eventschedule">https://www.component-creator.com/index.php?task=builder.preupdatecheckhook&amp;option=com_combuilder&amp;component=NzA2OC0yMTMyOTA</server>
+    </updateservers>
+</extension>

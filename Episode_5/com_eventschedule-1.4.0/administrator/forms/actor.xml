@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldprefix="Yepr\Component\Eventschedule\Administrator\Field">
+  <fieldset>
+    <field name="id" type="text" readonly="true" class="readonly" default="0" description="JGLOBAL_FIELD_ID_DESC"/>
+    <field name="state" default="1" type="list" label="JSTATUS" description="JFIELD_PUBLISHED_DESC" class="inputbox" size="1">
+      <option value="1">JPUBLISHED</option>
+      <option value="0">JUNPUBLISHED</option>
+      <option value="2">JARCHIVED</option>
+      <option value="-2">JTRASHED</option>
+    </field>
+    <field name="checked_out" type="hidden" filter="unset"/>
+    <field name="checked_out_time" type="hidden" filter="unset"/>
+    <field name="actor_name" filter="safehtml" type="text" required="true" message="A name for the actor is required." label="COM_EVENTSCHEDULE_FORM_LBL_ACTOR_ACTOR_NAME" description="COM_EVENTSCHEDULE_FORM_DESC_ACTOR_ACTOR_NAME" hint="COM_EVENTSCHEDULE_FORM_LBL_ACTOR_ACTOR_NAME"/>
+    <field name="actor_image" directory="" type="accessiblemedia" label="COM_EVENTSCHEDULE_FORM_LBL_ACTOR_ACTOR_IMAGE" description="COM_EVENTSCHEDULE_FORM_DESC_ACTOR_ACTOR_IMAGE" hint="COM_EVENTSCHEDULE_FORM_LBL_ACTOR_ACTOR_IMAGE"/>
+    <field name="biography" editor="|" buttons="false" filter="JComponentHelper::filterText" type="editor" label="COM_EVENTSCHEDULE_FORM_LBL_ACTOR_BIOGRAPHY" description="COM_EVENTSCHEDULE_FORM_DESC_ACTOR_BIOGRAPHY" hint="COM_EVENTSCHEDULE_FORM_LBL_ACTOR_BIOGRAPHY"/>
+    <field name="website" validate="url" type="url" label="COM_EVENTSCHEDULE_FORM_LBL_ACTOR_WEBSITE" description="COM_EVENTSCHEDULE_FORM_DESC_ACTOR_WEBSITE" hint="COM_EVENTSCHEDULE_FORM_LBL_ACTOR_WEBSITE"/>
+    <field name="events" type="foreignkey" label="COM_EVENTSCHEDULE_FORM_LBL_ACTOR_EVENTS" description="COM_EVENTSCHEDULE_FORM_DESC_ACTOR_EVENTS" default="0" input_type="list" table="#__eventschedule_events" key_field="id" translate="true" value_field="event_name" multiple="multiple"/>
+    <field name="schedule" type="foreignkey" label="COM_EVENTSCHEDULE_FORM_LBL_ACTOR_SCHEDULE" description="COM_EVENTSCHEDULE_FORM_DESC_ACTOR_SCHEDULE" default="" input_type="list" table="#__eventschedule_eventschedules" key_field="id" translate="true" value_field="title" required="true" message="Please fill in a schedule this actor belongs to."/>
+    <field name="version_note" type="text" label="JGLOBAL_FIELD_VERSION_NOTE_LABEL" description="JGLOBAL_FIELD_VERSION_NOTE_DESC" class="inputbox" size="45" labelclass="control-label"/>
+  </fieldset>
+</form>
